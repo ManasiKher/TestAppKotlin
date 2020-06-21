@@ -51,13 +51,10 @@ class CanadaDetailFragment : Fragment() {
         recyclerView.adapter = canadaDetailAdapter
 
         val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh_items)
-        swipeRefreshLayout.setOnRefreshListener(object:SwipeRefreshLayout.OnRefreshListener
-        {
-            override fun onRefresh() {
-                mDetailsContract.callServiceRefresh()
-            }
-
-        })
+        swipeRefreshLayout.setOnRefreshListener {
+            mDetailsContract.callServiceRefresh()
+            swipeRefreshLayout.isRefreshing = false
+        }
 
     }
 

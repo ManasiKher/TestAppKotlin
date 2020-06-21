@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
                         transaction.commit()
                         newFragment.setDetailsContract(this)
                     } else {
-                        Toast.makeText(this, Constants.TRY_AGAIN, Toast.LENGTH_SHORT)
+                        Toast.makeText(this, Constants.TRY_AGAIN, Toast.LENGTH_SHORT).show()
                     }
                 }
             })
@@ -45,14 +45,20 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
         textViewTitle.setText(title)
     }
 
+    /*
+   * To check the network connectivity
+   * */
     override fun callServiceRefresh() {
         if (isNetworkAvailable()) {
             canadaDetailsListModel.getDetails()
         } else {
-            Toast.makeText(this, Constants.NO_NETWORK, Toast.LENGTH_SHORT)
+            Toast.makeText(this, Constants.NO_NETWORK, Toast.LENGTH_SHORT).show()
         }
     }
 
+    /*
+    * To check the network connectivity
+    * */
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager =
             getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

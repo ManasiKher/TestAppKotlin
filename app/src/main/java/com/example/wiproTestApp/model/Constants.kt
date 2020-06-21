@@ -6,6 +6,6 @@ class Constants {
         const val SUCCESS = "Success"
         const val FAILED = "Failed"
         const val TRY_AGAIN = "Please try again"
-        const val NO_NETWORK = "Network is nit available"
+        const val NO_NETWORK = "Network is not available"
     }
 }
