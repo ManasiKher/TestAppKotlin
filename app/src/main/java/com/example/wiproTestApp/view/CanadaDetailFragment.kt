@@ -12,6 +12,10 @@ import android.widget.LinearLayout
 import com.example.wiproTestApp.view.CanadaDetailAdapter
 
 
+/*
+* contains the list of canada details items
+* */
+
 class CanadaDetailFragment : Fragment() {
 
     lateinit var mCanadaDetails: CanadaDetails
@@ -58,6 +62,9 @@ class CanadaDetailFragment : Fragment() {
 
     }
 
+    /*
+    * Fragment activity contract for service response handling
+    * */
     interface DetailsContract {
         fun setTitle(title: String)
         fun callServiceRefresh()

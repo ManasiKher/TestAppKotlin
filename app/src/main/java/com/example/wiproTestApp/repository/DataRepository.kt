@@ -3,6 +3,9 @@ package com.example.wiproTestApp
 import retrofit2.Call
 import retrofit2.Response
 
+/*
+* Handles service calls and request response
+* */
 class DataRepository(val netWorkApi: NetWorkApi) {
 
     fun getDetails(onDetailsData: OnDetailsData) {

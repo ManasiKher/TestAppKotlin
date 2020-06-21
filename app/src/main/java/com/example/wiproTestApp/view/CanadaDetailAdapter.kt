@@ -10,10 +10,11 @@ import com.bumptech.glide.Glide
 import com.example.wiproTestApp.CanadaDetails
 import com.example.wiproTestApp.R
 
-
+/*
+* canada about details adapter to show list details
+* */
 class CanadaDetailAdapter(private val canadaDetails: CanadaDetails) :
     RecyclerView.Adapter<CanadaDetailAdapter.ViewHolder>() {
-    private var mOnItemClickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(p0.context).inflate(R.layout.item_canada_details, p0, false)
@@ -35,20 +36,5 @@ class CanadaDetailAdapter(private val canadaDetails: CanadaDetails) :
         val name = itemView.findViewById<TextView>(R.id.tvTitle)
         val count = itemView.findViewById<TextView>(R.id.tvDescription)
         val imageView = itemView.findViewById<ImageView>(R.id.imageView);
-
-        init {
-            itemView.setOnClickListener {
-                mOnItemClickListener?.onItemClick(itemView, 0)
-            }
-        }
-    }
-
-
-    fun setItemClickListener(clickListener: ItemClickListener) {
-        mOnItemClickListener = clickListener
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(view: View, position: Int)
     }
 }

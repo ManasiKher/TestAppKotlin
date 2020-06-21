@@ -3,8 +3,11 @@ package com.example.wiproTestApp
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.net.ConnectivityManager
+import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.example.wiproTestApp.model.Constants
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val progressBar = findViewById<ProgressBar>(R.id.progress_circular)
         callServiceRefresh()
         canadaDetailsListModel.mCanadaDetailsResposne.observe(
             this,
@@ -31,8 +35,10 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
                         transaction.addToBackStack(null)
                         transaction.commit()
                         newFragment.setDetailsContract(this)
+                        progressBar.visibility = View.GONE
                     } else {
                         Toast.makeText(this, Constants.TRY_AGAIN, Toast.LENGTH_SHORT).show()
+                        progressBar.visibility = View.GONE
                     }
                 }
             })
@@ -40,13 +46,16 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
         )
     }
 
+    /*
+    * to set title from service response
+    * */
     override fun setTitle(title: String) {
         val textViewTitle = findViewById<TextView>(R.id.title_about_canada);
         textViewTitle.setText(title)
     }
 
     /*
-   * To check the network connectivity
+   * call to service
    * */
     override fun callServiceRefresh() {
         if (isNetworkAvailable()) {
