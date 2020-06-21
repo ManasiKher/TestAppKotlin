@@ -13,7 +13,7 @@ import com.example.wiproTestApp.R
 
 class CanadaDetailAdapter(private val canadaDetails: CanadaDetails) :
     RecyclerView.Adapter<CanadaDetailAdapter.ViewHolder>() {
-    private var onItemClickListener: ItemClickListener? = null
+    private var mOnItemClickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(p0.context).inflate(R.layout.item_canada_details, p0, false)
@@ -38,14 +38,14 @@ class CanadaDetailAdapter(private val canadaDetails: CanadaDetails) :
 
         init {
             itemView.setOnClickListener {
-                onItemClickListener?.onItemClick(itemView, 0)
+                mOnItemClickListener?.onItemClick(itemView, 0)
             }
         }
     }
 
 
     fun setItemClickListener(clickListener: ItemClickListener) {
-        onItemClickListener = clickListener
+        mOnItemClickListener = clickListener
     }
 
     interface ItemClickListener {
