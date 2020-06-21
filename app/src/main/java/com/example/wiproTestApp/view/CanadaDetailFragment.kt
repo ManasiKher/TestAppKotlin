@@ -20,6 +20,7 @@ class CanadaDetailFragment : Fragment() {
 
     lateinit var mCanadaDetails: CanadaDetails
     lateinit var mDetailsContract: DetailsContract
+
     companion object {
         const val KEY_DETAILS = "KEY_DETAILS"
 
@@ -38,10 +39,14 @@ class CanadaDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let { mCanadaDetails = it.getSerializable(KEY_DETAILS) as CanadaDetails}
+        arguments?.let { mCanadaDetails = it.getSerializable(KEY_DETAILS) as CanadaDetails }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_details_list, container, false)
     }
 
@@ -50,7 +55,8 @@ class CanadaDetailFragment : Fragment() {
 
         mDetailsContract.setTitle(mCanadaDetails.title)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView!!.layoutManager = LinearLayoutManager(view.context, LinearLayout.VERTICAL, false)
+        recyclerView!!.layoutManager =
+            LinearLayoutManager(view.context, LinearLayout.VERTICAL, false)
         val canadaDetailAdapter: CanadaDetailAdapter = CanadaDetailAdapter(mCanadaDetails)
         recyclerView.adapter = canadaDetailAdapter
 

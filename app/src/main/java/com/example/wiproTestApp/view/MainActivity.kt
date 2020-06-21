@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.opengl.Visibility
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ProgressBar
@@ -27,23 +28,27 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
             this,
             Observer(function = fun(responseBundle: ResponseBundle?) {
                 responseBundle?.let {
-
-                    if (responseBundle.responseStatus.equals(Constants.SUCCESS)) {
-                        val newFragment = CanadaDetailFragment.newInstance(responseBundle.canadaDetails)
-                        val transaction = supportFragmentManager!!.beginTransaction()
-                        transaction.replace(R.id.frag_container, newFragment)
-                        transaction.addToBackStack(null)
-                        transaction.commit()
-                        newFragment.setDetailsContract(this)
-                        progressBar.visibility = View.GONE
-                    } else {
-                        Toast.makeText(this, Constants.TRY_AGAIN, Toast.LENGTH_SHORT).show()
-                        progressBar.visibility = View.GONE
-                    }
+                    setFragment(responseBundle,progressBar)
                 }
             })
 
         )
+    }
+
+    fun setFragment(responseBundle : ResponseBundle,progressBar:ProgressBar)
+    {
+        if (responseBundle.responseStatus.equals(Constants.SUCCESS)) {
+            val newFragment = CanadaDetailFragment.newInstance(responseBundle.canadaDetails)
+            val transaction = supportFragmentManager!!.beginTransaction()
+            transaction.replace(R.id.frag_container, newFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+            newFragment.setDetailsContract(this)
+            progressBar.visibility = View.GONE
+        } else {
+            Toast.makeText(this, Constants.TRY_AGAIN, Toast.LENGTH_SHORT).show()
+            progressBar.visibility = View.GONE
+        }
     }
 
     /*
@@ -63,6 +68,15 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
         } else {
             Toast.makeText(this, Constants.NO_NETWORK, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
     }
 
     /*
