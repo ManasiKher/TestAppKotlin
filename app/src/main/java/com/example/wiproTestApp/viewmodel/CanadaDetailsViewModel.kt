@@ -13,8 +13,8 @@ class CanadaDetailsViewModel(val dataRepository: DataRepository) : ViewModel(), 
        // candaDetailsResposne.value = listOf()
     }
 
-    fun getProducts() {
-        dataRepository.getProducts(object : DataRepository.OnProductData {
+    fun getDetails() {
+        dataRepository.getDetails(object : DataRepository.OnDetailsData {
             override fun onSuccess(data: CanadaDetails) {
                 candaDetailsResposne.value = data
             }

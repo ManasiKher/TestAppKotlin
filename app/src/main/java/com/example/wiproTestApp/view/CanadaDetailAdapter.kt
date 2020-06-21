@@ -16,7 +16,7 @@ class CanadaDetailAdapter(private val canadaDetails: CanadaDetails) :
     private var onItemClickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val v = LayoutInflater.from(p0?.context).inflate(R.layout.adapter_canada_details, p0, false)
+        val v = LayoutInflater.from(p0.context).inflate(R.layout.item_canada_details, p0, false)
         return ViewHolder(v);
     }
 
@@ -32,8 +32,8 @@ class CanadaDetailAdapter(private val canadaDetails: CanadaDetails) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name = itemView.findViewById<TextView>(R.id.tvName)
-        val count = itemView.findViewById<TextView>(R.id.tvCount)
+        val name = itemView.findViewById<TextView>(R.id.tvTitle)
+        val count = itemView.findViewById<TextView>(R.id.tvDescription)
         val imageView = itemView.findViewById<ImageView>(R.id.imageView);
 
         init {

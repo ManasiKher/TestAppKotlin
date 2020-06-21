@@ -5,19 +5,19 @@ import retrofit2.Response
 
 class DataRepository(val netWorkApi: NetWorkApi) {
 
-    fun getProducts(onProductData: OnProductData) {
-        netWorkApi.getProducts().enqueue(object : retrofit2.Callback<CanadaDetails> {
+    fun getDetails(onDetailsData: OnDetailsData) {
+        netWorkApi.getCanadaDetails().enqueue(object : retrofit2.Callback<CanadaDetails> {
             override fun onResponse(call: Call<CanadaDetails>, response: Response<CanadaDetails>) {
-                onProductData.onSuccess((response.body() as CanadaDetails))
+                onDetailsData.onSuccess((response.body() as CanadaDetails))
             }
 
             override fun onFailure(call: Call<CanadaDetails>, t: Throwable) {
-                onProductData.onFailure()
+                onDetailsData.onFailure()
             }
         })
     }
 
-    interface OnProductData {
+    interface OnDetailsData {
         fun onSuccess(data: CanadaDetails)
         fun onFailure()
     }

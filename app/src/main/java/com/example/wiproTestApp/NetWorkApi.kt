@@ -7,6 +7,6 @@ import retrofit2.http.GET
 interface NetWorkApi{
 
     @GET("facts.json")
-    fun getProducts(): Call<CanadaDetails>
+    fun getCanadaDetails(): Call<CanadaDetails>
 
 }

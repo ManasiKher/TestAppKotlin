@@ -40,11 +40,11 @@ class CanadaDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val title = view?.findViewById<TextView>(R.id.title_about_canada);
+        val title = view.findViewById<TextView>(R.id.title_about_canada);
         title.setText(canadaDetails.title)
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView!!.layoutManager = LinearLayoutManager(view!!.context, LinearLayout.VERTICAL, false)
-        var canadaDetailAdapter: CanadaDetailAdapter = CanadaDetailAdapter(canadaDetails)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView!!.layoutManager = LinearLayoutManager(view.context, LinearLayout.VERTICAL, false)
+        val canadaDetailAdapter: CanadaDetailAdapter = CanadaDetailAdapter(canadaDetails)
         recyclerView.adapter = canadaDetailAdapter
 
     }
