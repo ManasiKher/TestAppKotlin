@@ -20,9 +20,9 @@ class DataRepository(val netWorkApi: NetWorkApi) {
         })
     }
 
-    interface OnDetailsData {
-        fun onSuccess(data: CanadaDetails)
-        fun onFailure()
+    sealed class OnDetailsData {
+        abstract fun onSuccess(data: CanadaDetails)
+        abstract fun onFailure()
     }
 }
 

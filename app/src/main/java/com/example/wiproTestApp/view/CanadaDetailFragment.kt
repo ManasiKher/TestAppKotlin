@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,9 @@ class CanadaDetailFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView!!.layoutManager =
             LinearLayoutManager(view.context, LinearLayout.VERTICAL, false)
-        val canadaDetailAdapter: CanadaDetailAdapter = CanadaDetailAdapter(mCanadaDetails)
+        checkIfEmptyTextInResponse()
+        val canadaDetailAdapter =
+            activity?.applicationContext?.let { CanadaDetailAdapter(mCanadaDetails, it) }
         recyclerView.adapter = canadaDetailAdapter
 
         val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh_items)
@@ -68,11 +71,28 @@ class CanadaDetailFragment : Fragment() {
 
     }
 
+    //It will remove the details which has no description
+    private fun checkIfEmptyTextInResponse() {
+        val aboutCanadaDetails: List<AboutCanadaDetails> = mCanadaDetails.rows
+        val aboutCanadaDetailsFormatted: ArrayList<AboutCanadaDetails> = ArrayList()
+        for (aboutCanada: AboutCanadaDetails in aboutCanadaDetails) {
+            if (!TextUtils.isEmpty(aboutCanada.description)) {
+                aboutCanadaDetailsFormatted.add(aboutCanada)
+            }
+        }
+        mCanadaDetails.rows = aboutCanadaDetailsFormatted
+    }
+
     /*
     * Fragment activity contract for service response handling
     * */
     interface DetailsContract {
         fun setTitle(title: String)
         fun callServiceRefresh()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.finish()
     }
 }

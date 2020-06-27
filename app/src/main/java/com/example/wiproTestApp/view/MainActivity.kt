@@ -3,7 +3,6 @@ package com.example.wiproTestApp
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.net.ConnectivityManager
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
@@ -18,25 +17,27 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
 
-    private val canadaDetailsListModel: CanadaDetailsViewModel by viewModel()
+    private val mCanadaDetailsListModel: CanadaDetailsViewModel by viewModel()
+    private lateinit var mProgressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val progressBar = findViewById<ProgressBar>(R.id.progress_circular)
+        mProgressBar = findViewById(R.id.progress_circular)
         callServiceRefresh()
-        canadaDetailsListModel.mCanadaDetailsResposne.observe(
+        mCanadaDetailsListModel.mCanadaDetailsResposne.observe(
             this,
             Observer(function = fun(responseBundle: ResponseBundle?) {
                 responseBundle?.let {
-                    setFragment(responseBundle,progressBar)
+                    setFragment(responseBundle)
                 }
             })
 
         )
     }
 
-    fun setFragment(responseBundle : ResponseBundle,progressBar:ProgressBar)
+    private fun setFragment(responseBundle : ResponseBundle)
     {
+        mProgressBar.visibility = View.GONE
         if (responseBundle.responseStatus.equals(Constants.SUCCESS)) {
             val newFragment = CanadaDetailFragment.newInstance(responseBundle.canadaDetails)
             val transaction = supportFragmentManager!!.beginTransaction()
@@ -44,10 +45,8 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
             transaction.addToBackStack(null)
             transaction.commit()
             newFragment.setDetailsContract(this)
-            progressBar.visibility = View.GONE
         } else {
             Toast.makeText(this, Constants.TRY_AGAIN, Toast.LENGTH_SHORT).show()
-            progressBar.visibility = View.GONE
         }
     }
 
@@ -55,8 +54,9 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
     * to set title from service response
     * */
     override fun setTitle(title: String) {
-        val textViewTitle = findViewById<TextView>(R.id.title_about_canada);
-        textViewTitle.setText(title)
+        val toolbar = findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.title = title
     }
 
     /*
@@ -64,19 +64,11 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
    * */
     override fun callServiceRefresh() {
         if (isNetworkAvailable()) {
-            canadaDetailsListModel.getDetails()
+            mCanadaDetailsListModel.getDetails()
         } else {
+            mProgressBar.visibility = View.GONE
             Toast.makeText(this, Constants.NO_NETWORK, Toast.LENGTH_SHORT).show()
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        super.onSaveInstanceState(outState, outPersistentState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-
     }
 
     /*
