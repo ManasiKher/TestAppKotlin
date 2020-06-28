@@ -1,18 +1,18 @@
-package com.example.wiproTestApp
+package com.example.testAppKotlin
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
-import com.example.wiproTestApp.model.Constants
-import com.example.wiproTestApp.model.ResponseBundle
+import com.example.testAppKotlin.model.Constants
 import org.koin.android.viewmodel.ext.android.viewModel
+import android.arch.lifecycle.ViewModelProviders
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
    * */
     override fun callServiceRefresh() {
         if (isNetworkAvailable()) {
-            mCanadaDetailsListModel.getDetails()
+            mCanadaDetailsListModel.getData()
         } else {
             mProgressBar.visibility = View.GONE
             Toast.makeText(this, Constants.NO_NETWORK, Toast.LENGTH_SHORT).show()
@@ -71,4 +71,33 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
+
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val mViewModel: CanadaDetailsViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory)[CanadaDetailsViewModel::class.java]
+    }
+
+
+    private fun observeError() {
+        mViewModel.getErrors().observe(this, Observer {
+            it?.let {Toast.makeText(this, it, Toast.LENGTH_SHORT).show()}
+        })
+    }
+
+
+    private fun observeDetails() {
+        mViewModel.getDetails().observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is CanadaDetails -> setFragment(it)
+                    is ErrorDetails -> mViewModel.getErrors().postValue(it.msg)
+                }
+            }
+        })
+    }
+
+    private fun Boolean?.getVisibility(): Int = if (this != null && this) View.VISIBLE else View.GONE
 }

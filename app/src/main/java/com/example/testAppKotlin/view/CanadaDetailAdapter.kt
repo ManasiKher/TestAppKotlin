@@ -1,4 +1,4 @@
-package com.example.wiproTestApp.view
+package com.example.testAppKotlin.view
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.example.wiproTestApp.CanadaDetails
-import com.example.wiproTestApp.R
+import com.example.testAppKotlin.CanadaDetails
+import com.example.testAppKotlin.R
 import kotlinx.android.synthetic.main.item_canada_details.view.*
 
 /*

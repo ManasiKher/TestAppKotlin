@@ -1,4 +1,4 @@
-package com.example.wiproTestApp;
+package com.example.testAppKotlin;
 
 
 import android.support.test.espresso.ViewInteraction;

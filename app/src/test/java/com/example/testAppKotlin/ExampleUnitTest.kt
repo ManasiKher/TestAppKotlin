@@ -1,4 +1,4 @@
-package com.example.wiproTestApp
+package com.example.testAppKotlin
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

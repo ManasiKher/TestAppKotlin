@@ -1,4 +1,4 @@
-package com.example.wiproTestApp
+package com.example.testAppKotlin
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

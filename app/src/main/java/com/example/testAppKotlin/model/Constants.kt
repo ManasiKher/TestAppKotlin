@@ -1,4 +1,4 @@
-package com.example.wiproTestApp.model
+package com.example.testAppKotlin.model
 
 
 class Constants {
@@ -8,5 +8,6 @@ class Constants {
         const val TRY_AGAIN = "Please try again"
         const val NO_NETWORK = "Network is not available"
         const val BASE_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/"
+        const val SERVICE_END_NAME = "facts.json"
     }
 }

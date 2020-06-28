@@ -1,4 +1,4 @@
-package com.example.wiproTestApp
+package com.example.testAppKotlin
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.example.wiproTestApp.view.CanadaDetailAdapter
+import com.example.testAppKotlin.view.CanadaDetailAdapter
 
 
 /*
