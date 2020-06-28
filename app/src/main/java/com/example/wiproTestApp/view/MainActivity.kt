@@ -1,6 +1,7 @@
 package com.example.wiproTestApp
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -8,7 +9,6 @@ import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import com.example.wiproTestApp.model.Constants
 import com.example.wiproTestApp.model.ResponseBundle
@@ -24,30 +24,21 @@ class MainActivity : AppCompatActivity(), CanadaDetailFragment.DetailsContract {
         setContentView(R.layout.activity_main)
         mProgressBar = findViewById(R.id.progress_circular)
         callServiceRefresh()
-        mCanadaDetailsListModel.mCanadaDetailsResposne.observe(
-            this,
-            Observer(function = fun(responseBundle: ResponseBundle?) {
-                responseBundle?.let {
-                    setFragment(responseBundle)
-                }
-            })
+        (application as MainApplication).networkComponent.inject(this)
+        mViewModel.getData()
+        observeDetails()
+        observeError()
 
-        )
     }
 
-    private fun setFragment(responseBundle : ResponseBundle)
+    private fun setFragment(canadaDetails: CanadaDetails)
     {
         mProgressBar.visibility = View.GONE
-        if (responseBundle.responseStatus.equals(Constants.SUCCESS)) {
-            val newFragment = CanadaDetailFragment.newInstance(responseBundle.canadaDetails)
+            val newFragment = CanadaDetailFragment.newInstance(canadaDetails)
             val transaction = supportFragmentManager!!.beginTransaction()
             transaction.replace(R.id.frag_container, newFragment)
-            transaction.addToBackStack(null)
             transaction.commit()
             newFragment.setDetailsContract(this)
-        } else {
-            Toast.makeText(this, Constants.TRY_AGAIN, Toast.LENGTH_SHORT).show()
-        }
     }
 
     /*

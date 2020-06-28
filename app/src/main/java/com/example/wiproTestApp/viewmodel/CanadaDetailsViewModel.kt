@@ -2,29 +2,33 @@ package com.example.wiproTestApp
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.example.wiproTestApp.model.Constants
-import com.example.wiproTestApp.model.ResponseBundle
-import org.koin.standalone.KoinComponent
+import android.util.Log
+import javax.inject.Inject
 
 
-class CanadaDetailsViewModel(val dataRepository: DataRepository) : ViewModel(), KoinComponent {
+class CanadaDetailsViewModel @Inject constructor(private val dataRepository: DataRepository) : ViewModel() {
 
-    var mCanadaDetailsResposne = MutableLiveData<ResponseBundle>()
-    lateinit var mCanadaDetails: CanadaDetails
-    lateinit var mResponseBundle: ResponseBundle
+    private var mCanadaDetails = MutableLiveData<DetailsData>()
 
-    fun getDetails() {
-        dataRepository.getDetails(object : DataRepository.OnDetailsData {
-            override fun onSuccess(data: CanadaDetails) {
-                mCanadaDetails = data
-                mResponseBundle = ResponseBundle(data, Constants.SUCCESS)
-                mCanadaDetailsResposne.value = mResponseBundle
-            }
+    private val error = MutableLiveData<String>()
 
-            override fun onFailure() {
-                mResponseBundle = ResponseBundle(null,Constants.FAILED)
-                mCanadaDetailsResposne.value = mResponseBundle
-            }
-        })
+    fun getDetails(): MutableLiveData<DetailsData> = mCanadaDetails
+
+    fun getErrors() = error
+
+    fun getData() {
+        mCanadaDetails.value?.let {
+            return
+        }
+        mCanadaDetails = dataRepository.getDetails()
     }
+
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("DISPOSE", "----- disposed -------")
+        dataRepository.getCompositeDisposable().clear()
+        dataRepository.getCompositeDisposable().dispose()
+    }
+
 }
